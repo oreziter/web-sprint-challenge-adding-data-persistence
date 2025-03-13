@@ -1,9 +1,9 @@
 // start your server here
-require('dotenv').config()
+const server = require("./api/server");
 
-const server = require("./api/server.js")
+const HOST = "localhost";
+const PORT = 9000;
 
-const port = process.env.PORT
+// console.log('Hello Dan')
 
-server.listen(port, () => console.log(`\nAPI running on port ${port}\n`))
-
+server.listen(PORT, () => console.log(`Server running at ${HOST}:${PORT}`));

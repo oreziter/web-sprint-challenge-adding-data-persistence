@@ -1,14 +1,40 @@
 // build your `/api/projects` router here
+const express = require('express');
+const Projects = require('./model'); 
 
-// const express = require('express');
-// const Post = require('./projects-model');
+const router = express.Router();
+
+console.log("Hello world"),
+router.get('/', async (req, res, next) => {
+  try {
+    const projects = await Projects.getAllProjects();
+    res.json(projects);
+  } catch (err) {
+    next(err); 
+  }
+});
+
+module.exports = router;
 
 
-// const projects = express.Router()
 
-// router.get('/api/tasks', (req, res) => {
-// res.status(200).json(tasks);
-//});
+
+
+
+// const router = require('express').Project();
+// const Project = require('./model')
+
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const getProjects = await Project.get();
+//     res.status(200).json(getProjects);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+
+
 
 
 // projects.get('/', (req, res) => {
@@ -20,14 +46,14 @@
 //   .catch(err => {
 //     res.status(200).json({ 
 //       message: "project_id":1,"project_name":
-//         "bar","project_description":null,
-//          "project_completed":false",
+//         "bar","project_description":null;
+//          "project_completed":false,
 //       err: err.message,
 //       stack: err.stack,
-//     })
-//   })
+//     });
+//   });
 
-// })
+// });
 
 
 
@@ -57,3 +83,5 @@
 //       });
 //     });
 // });
+
+// module.exports= router;
