@@ -1,12 +1,8 @@
 // build your `Project` model here
 const db = require("../../data/dbConfig"); 
-module.exports = {
-  getAllProjects,
-};
 
 async function getAllProjects() {
   const projects = await db('projects');
-  
   
   return projects.map(project => ({
     ...project,
@@ -14,7 +10,8 @@ async function getAllProjects() {
   }));
 }
 
-
-
+module.exports = {
+  getAllProjects,
+};
 
 

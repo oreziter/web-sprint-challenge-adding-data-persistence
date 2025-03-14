@@ -2,8 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = async function(knex) {
-  await knex.schema.createTable('projects', (table) => {
+exports.up = function(knex) {
+  return knex.schema.createTable('projects', (table) => {
     table.increments('project_id'); 
     table.string('project_name').notNullable().unique()
     table.text('project_description'); 
@@ -39,10 +39,16 @@ exports.up = async function(knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = async function(knex) {
-  await knex.schema
-  .dropTableIfExists('projects')
-  .dropTableIfExists('resources')
-  .dropTableIfExists('tasks')
-
+exports.down = function (knex) {
+  return knex.schema
+    .dropTableIfExists('tasks')    // Drop tasks first because it depends on projects
+    .dropTableIfExists('resources') // Resources can be dropped second
+    .dropTableIfExists('projects'); // Projects should be last
 };
+// exports.down = async function(knex) {
+//   await knex.schema
+//   .dropTableIfExists('projects')
+//   .dropTableIfExists('resources')
+//   .dropTableIfExists('tasks')
+
+// };
