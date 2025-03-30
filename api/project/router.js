@@ -4,7 +4,7 @@ const Projects = require('./model');
 
 const router = express.Router();
 
-console.log("Hello world"),
+console.log("scrum master"),
 router.get('/', async (req, res, next) => {
   try {
     const projects = await Projects.getAllProjects();
@@ -14,11 +14,18 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.post ('/', async (req, res, next) => {
+  try {
+    const newProject = await Projects.createProject(req.body)
+    res.status(201).json(newProject)
+  } catch(err){
+    next(err)
+  }
+  
+})
+
+
 module.exports = router;
-
-
-
-
 
 
 // const router = require('express').Project();
@@ -36,29 +43,7 @@ module.exports = router;
 
 
 
-
-// projects.get('/', (req, res) => {
-//   Post.get()
-//   .then(found => {
-//     res.json(found)
-//     // res.send('welcome')
-//   })
-//   .catch(err => {
-//     res.status(200).json({ 
-//       message: "project_id":1,"project_name":
-//         "bar","project_description":null;
-//          "project_completed":false,
-//       err: err.message,
-//       stack: err.stack,
-//     });
-//   });
-
-// });
-
-
-
-
-// projects.post('/', (req, res) => {
+// projects.post('/', (req, res, next) => {
 //   const { project_name, project_description} = req.body;
 
 // router.post('/api/tasks', (req, res) => {
@@ -84,4 +69,7 @@ module.exports = router;
 //     });
 // });
 
+
 // module.exports= router;
+
+//   newProject.project_completed = newProject.project_completed;

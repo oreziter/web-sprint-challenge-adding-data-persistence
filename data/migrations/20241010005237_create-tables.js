@@ -20,7 +20,7 @@ exports.up = function(knex) {
 
   .createTable('tasks', (table) => {
     table.increments('task_id') 
-    table.string('task_description').notNullable().unique()
+    table.text('task_description').notNullable().unique()
     table.text('task_notes'); 
     table.boolean('task_completed').defaultTo(false)
     table
@@ -45,10 +45,3 @@ exports.down = function (knex) {
     .dropTableIfExists('resources') // Resources can be dropped second
     .dropTableIfExists('projects'); // Projects should be last
 };
-// exports.down = async function(knex) {
-//   await knex.schema
-//   .dropTableIfExists('projects')
-//   .dropTableIfExists('resources')
-//   .dropTableIfExists('tasks')
-
-// };
