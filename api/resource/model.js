@@ -2,23 +2,55 @@
 const db = require("../../data/dbConfig"); 
 
 async function getAllResources() {
-  return db("resources")
+  const resources = await db('resources');
+  
+  return resources.map(resource => ({
+    ...resource,
+    resource_completed: resource.resource_completed === 1  
+  }));
 }
+async function createResource (resource) {
+  const [resource_id] = await db('resources').insert(resource)
 
-async function getResourceById(resource_id) {
-  return db("resources").where({ resource_id }).first();
-}
+   const newResource = await db ('resources').where('resource_id',resource_id).first()
+  if (!newResource){
+    return null
 
-async function addResource(resource) {
-  const [resource_id] = await db("resources").insert(resource);
-  return getResourceById(resource_id);
+  } 
+  newResource.resource_completed = newResource.resource_completed ? true : false 
+  return newResource
 }
 
 module.exports = {
   getAllResources,
-  getResourceById,
-  addResource,
+  createResource,
 };
+
+
+
+
+
+
+// async function getAllResources() {
+//   return db("resources")
+// }
+
+// async function getResourceById(resource_id) {
+//   return db("resources").where({ resource_id }).first();
+// }
+
+// async function addResource(resource) {
+//   const [resource_id] = await db("resources").insert(resource);
+//   return getResourceById(resource_id);
+// }
+
+// module.exports = {
+//   getAllResources,
+//   getResourceById,
+//   addResource,
+// };
+
+
 
 
 
