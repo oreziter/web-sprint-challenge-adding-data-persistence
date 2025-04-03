@@ -2,12 +2,17 @@
 const db = require("../../data/dbConfig"); 
 
 async function getAllTasks() {
-  const tasks = await db('tasks');
+  const tasks = await db('tasks as t')
+  .leftJoin('projects as p','t.project_id','p.project_id')
+  .select('task_id','task_description','task_notes','task_completed', 'p.project_name','p.project_description')
   
-  return tasks.map(task => ({
-    ...task,
-    task_completed: task.task_completed === 1  
-  }));
+ const result = tasks.map(task => {
+    return {
+  ...task,
+    task_completed: task.task_completed ? true : false 
+   }
+  });
+  return result
 }
 async function createTask(task) {
   const [task_id] = await db('tasks').insert(task)
@@ -29,34 +34,6 @@ module.exports = {
 
 
 
-
-//  const db = require('../../data/db-config');
- 
-// const knex = require("knex")(require("../knexfile").development);
-
-// async function getTaskById(task_id) {
-//   return knex("tasks").where({ task_id }).first().then((task) => {
-//     if (task) {
-//       task.task_completed = task.task_completed;
-//     }
-//     return task;
-//   });
-// }
-
-
-// async function addTask(task) {
-//   const [task_id] = await knex("tasks").insert({
-//     ...task,
-//     task_completed: task.task_completed
-//   });
-//   return getTaskById(task_id);
-// }
-
-// module.exports = {
-//   getAllTasks,
-//   getTaskById,
-//   addTask,
-// };
 
 
 
